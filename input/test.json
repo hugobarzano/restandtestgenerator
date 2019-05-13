@@ -1,0 +1,11 @@
+[{
+  "name": "basic web app",
+  "service": "/cats",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"miau",
+    "size":2
+  }
+}]
+

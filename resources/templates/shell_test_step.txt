@@ -1,0 +1,25 @@
+echo
+TestStep_<N>() {
+echo "----- Test Step - <N> -----"
+echo "TEST STEP - <N> "
+echo "API NAME: <name>"
+echo "URL: <url>"
+echo "Scripting field..."
+#<<SCRIPT_PLACEHOLDER>>
+
+response_code=<curl>
+
+if [ $response_code = "<expected_code>" ]; then
+    echo "STEP - <N>: PASS"
+    echo "----- --- -----"
+    return 0
+else
+  echo "STEP - <N>: FAIL"
+  return 1
+fi
+
+
+}
+echo "----- --- -----"
+echo
+
