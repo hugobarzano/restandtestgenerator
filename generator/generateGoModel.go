@@ -25,6 +25,15 @@ func GenerateGoModel(modelName string, modelAttributes map[string]interface{}) s
 	for key, value := range modelAttributes {
 		if reflect.TypeOf(value).String() == "string"{
 			modelBuffer.WriteString("	"+strings.Title(key)+"    "+"string"+"    "+ generateInfo(key))
+			modelBuffer.WriteString("\n")
+		} else if reflect.TypeOf(value).String() == "float64"{
+			modelBuffer.WriteString("	"+strings.Title(key)+"    "+"float64"+"    "+ generateInfo(key))
+			modelBuffer.WriteString("\n")
+		}else if reflect.TypeOf(value).String() == "bool"{
+			modelBuffer.WriteString("	"+strings.Title(key)+"    "+"bool"+"    "+ generateInfo(key))
+			modelBuffer.WriteString("\n")
+		} else {
+			fmt.Println("Not Supported DATA type")
 		}
 	}
 	//modelBuffer.WriteString("}")

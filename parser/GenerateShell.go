@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"reflect"
 	"strconv"
 	"strings"
 	"restandtestgenerator/models"
@@ -42,7 +43,7 @@ func GenerateShellDELETE(route models.ApiRoute) string {
 	testStep := strings.Replace(curl_template, "<http_verb>", "DELETE", 1)
 	testStep = strings.Replace(testStep, "<url>", route.Url, 1)
 	testStep = strings.Replace(testStep, "<port>", route.Port, 1)
-	testStep = strings.Replace(testStep, "<route>", route.Service+"/${ID//\"}", 1)
+	testStep = strings.Replace(testStep, "<route>", route.Service+"/${ID//"+"\\\"}", 1)
 
 	return testStep
 }
@@ -65,8 +66,8 @@ func GenerateShellPUT(route models.ApiRoute) string {
 	testStep := strings.Replace(local_template, "<http_verb>", "PUT", 1)
 	testStep = strings.Replace(testStep, "<url>", route.Url, 1)
 	testStep = strings.Replace(testStep, "<port>", route.Port, 1)
-	testStep = strings.Replace(testStep, "<route>", route.Service, 1)
-	testStep = strings.Replace(testStep, "<data>", "'"+generateData(route)+"'", 1)
+	testStep = strings.Replace(testStep, "<route>", route.Service+"/${ID//"+"\\\"}", 1)
+	testStep = strings.Replace(testStep, "<data>", "'"+generateAlterData(route)+"'", 1)
 
 	return testStep
 }
@@ -74,6 +75,32 @@ func GenerateShellPUT(route models.ApiRoute) string {
 func generateData(route models.ApiRoute) string {
 
 	b, err := json.Marshal(route.Body)
+
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	fmt.Println(string(b))
+	return string(b)
+}
+
+func generateAlterData(route models.ApiRoute) string {
+
+	local_route:=route
+	for key,value:= range local_route.Body{
+
+		if reflect.TypeOf(value).String() == "string"{
+			local_route.Body[key]=value.(string)+"_Update"
+		}else if reflect.TypeOf(value).String() == "float64"{
+			local_route.Body[key]=value.(float64)+1
+		}else if reflect.TypeOf(value).String() == "bool"{
+			local_route.Body[key]= false
+		} else {
+			fmt.Println("Not Supported DATA type")
+		}
+	}
+
+	b, err := json.Marshal(local_route.Body)
 
 	if err != nil {
 		fmt.Println(err)
@@ -116,7 +143,7 @@ func GenerateGetModel(number int, route models.ApiRoute) string   {
 
 }
 
-func GenerateDELETEShellStep(number int, route models.ApiRoute, template string) (string, error) {
+func GenerateDELETEShellStep(number int, route models.ApiRoute, template string,http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
 	var file []byte
@@ -129,7 +156,7 @@ func GenerateDELETEShellStep(number int, route models.ApiRoute, template string)
 
 	step_curl := GenerateShellDELETE(route)
 	code = strings.Replace(code, "<curl>", step_curl, 1)
-	code = strings.Replace(code, "<expected_code>", "200", 1)
+	code = strings.Replace(code, "<expected_code>", http_code, 1)
 
 	code = strings.Replace(code, "#<<SCRIPT_PLACEHOLDER>>", "echo $ID", 1)
 
@@ -137,7 +164,7 @@ func GenerateDELETEShellStep(number int, route models.ApiRoute, template string)
 }
 
 
-func GeneratePOSTShellStep(number int, route models.ApiRoute, template string) (string, error) {
+func GeneratePOSTShellStep(number int, route models.ApiRoute, template string,http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
 	var file []byte
@@ -150,12 +177,12 @@ func GeneratePOSTShellStep(number int, route models.ApiRoute, template string) (
 
 	step_curl := GenerateShellPOST(route)
 	code = strings.Replace(code, "<curl>", step_curl, 1)
-	code = strings.Replace(code, "<expected_code>", "200", 1)
+	code = strings.Replace(code, "<expected_code>", http_code, 1)
 	return code, err
 }
 
 
-func GeneratePUTShellStep(number int, route models.ApiRoute, template string) (string, error) {
+func GeneratePUTShellStep(number int, route models.ApiRoute, template string, http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
 	var file []byte
@@ -169,7 +196,7 @@ func GeneratePUTShellStep(number int, route models.ApiRoute, template string) (s
 
 	step_curl := GenerateShellPUT(route)
 	code = strings.Replace(code, "<curl>", step_curl, 1)
-	code = strings.Replace(code, "<expected_code>", "200", 1)
+	code = strings.Replace(code, "<expected_code>", http_code, 1)
 	return code, err
 }
 

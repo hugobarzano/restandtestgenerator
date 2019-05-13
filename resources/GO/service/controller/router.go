@@ -43,7 +43,7 @@ var routes = Routes {
 	Route {
 		"UpdateBusinessObject",
 		"PUT",
-		API_GENERATED,
+		API_GENERATED+"/{id}",
 		controller.UpdateBusinessObject,
 	},
 	// Get BusinessObject by {id}

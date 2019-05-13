@@ -1,4 +1,4 @@
-echo
+
 TestStep_<N>() {
 echo "----- Test Step - <N> -----"
 echo "TEST STEP - <N> "
@@ -18,8 +18,6 @@ else
   return 1
 fi
 
-
 }
-echo "----- --- -----"
-echo
+
 

@@ -71,6 +71,11 @@ func (c *Controller) AddBusinessObject(w http.ResponseWriter, r *http.Request) {
 // UpdateBusinessObject PUT /
 func (c *Controller) UpdateBusinessObject(w http.ResponseWriter, r *http.Request) {
 	var businessObject models.BusinessObject
+	vars := mux.Vars(r)
+	log.Println(vars)
+	id := vars["id"] // param id
+	log.Println(id);
+
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576)) // read the body of the request
 	if err != nil {
 		log.Fatalln("Error UpdateBusinessObject", err)
@@ -94,8 +99,9 @@ func (c *Controller) UpdateBusinessObject(w http.ResponseWriter, r *http.Request
 		}
 	}
 
-	fmt.Println("TO BE UPDATED BusinessObject ID - ", businessObject.ID)
-	success := c.Storer.UpdateBusinessObject(businessObject) // updates the businessObject in the DB
+	fmt.Println("TO BE UPDATED BusinessObject ID - ", id)
+	businessObject.ID=id
+	success := c.Storer.UpdateBusinessObject(id,businessObject) // updates the businessObject in the DB
 
 	if !success {
 		w.WriteHeader(http.StatusInternalServerError)

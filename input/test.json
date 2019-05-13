@@ -1,11 +1,12 @@
 [{
   "name": "basic web app",
-  "service": "/cats",
+  "service": "/lummys",
   "url": "http://localhost",
   "port":":8080",
   "body": {
-    "name":"miau",
-    "size":2
+    "name":"guay",
+    "price": 20000,
+    "skills": true
   }
 }]
 

@@ -122,20 +122,20 @@ func (s Storer) AddBusinessObject(businessObject models.BusinessObject) bool {
 }
 
 // UpdateBusinessObject updates a businessObject in the DB
-func (s Storer) UpdateBusinessObject(businessObject models.BusinessObject) bool {
+func (s Storer) UpdateBusinessObject(id string, businessObject models.BusinessObject) bool {
 	session, err := NewSession()
 	//defer session.Close()
 
 
 	//session.Copy().session.DB(DBNAME).C(COLLECTION).UpdateId(businessObject.ID, businessObject)
-	err = session.Copy().session.DB(DBNAME).C(COLLECTION).UpdateId(businessObject.ID, businessObject)
+	err = session.Copy().session.DB(DBNAME).C(COLLECTION).UpdateId(id, businessObject)
 
 	if err != nil {
 		log.Fatal(err)
 		return false
 	}
 
-	fmt.Println("Updated BusinessObject ID - ", businessObject.ID)
+	fmt.Println("Updated BusinessObject ID - ", id)
 	session.Close()
 	return true
 }

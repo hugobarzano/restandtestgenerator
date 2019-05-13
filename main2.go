@@ -57,33 +57,39 @@ func main() {
 	var step_test []string
 	var step_exec []string
 	for _,route := range (route){
-		step,err:=parser.GenerateGETShellStep(1,route,SHELL_TEMPLATE_STEP_TEST)
+
+
+
+
+		step,err:=parser.GeneratePOSTShellStep(1,route,SHELL_TEMPLATE_STEP_TEST,"201")
 		Check(err)
 		step_test=append(step_test, step)
 		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(1)+"\"" )
 		step_exec=append(step_exec," " )
 
 
-
-
-	step,err=parser.GeneratePOSTShellStep(2,route,SHELL_TEMPLATE_STEP_TEST)
-	Check(err)
-	step_test=append(step_test, step)
-	step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(2)+"\"" )
-	step_exec=append(step_exec," " )
-
-
-		step,err=parser.GeneratePUTShellStep(3,route,SHELL_TEMPLATE_STEP_TEST)
+		step,err=parser.GenerateGETShellStep(2,route,SHELL_TEMPLATE_STEP_TEST,"200")
 		Check(err)
 		step_test=append(step_test, step)
 		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(2)+"\"" )
 		step_exec=append(step_exec," " )
 
 
-		step,err=parser.GenerateDELETEShellStep(2,route,SHELL_TEMPLATE_STEP_TEST)
+
+
+
+
+		step,err=parser.GeneratePUTShellStep(3,route,SHELL_TEMPLATE_STEP_TEST,"200")
 		Check(err)
 		step_test=append(step_test, step)
-		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(2)+"\"" )
+		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(3)+"\"" )
+		step_exec=append(step_exec," " )
+
+
+		step,err=parser.GenerateDELETEShellStep(4,route,SHELL_TEMPLATE_STEP_TEST,"200")
+		Check(err)
+		step_test=append(step_test, step)
+		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(4)+"\"" )
 		step_exec=append(step_exec," " )
 
 
