@@ -9,7 +9,6 @@ import (
 	"os/exec"
 	"reflect"
 	"restandtestgenerator/models"
-	"restandtestgenerator/parser"
 	"strings"
 )
 
@@ -19,11 +18,18 @@ func CopyDir(src, dst string) error {
 	return cmd.Run()
 }
 
+
+func ReadJson(file string) (string, error){
+	data, err := ioutil.ReadFile(file)
+	//fmt.Print(string(data))
+	return string(data),err
+}
+
 func LoadModelInput(pathFile string) models.ApiRoute {
 
 
 
-	config,err:=parser.ReadJson(pathFile)
+	config,err:=ReadJson(pathFile)
 
 	if err != nil {
 		log.Fatal(err)

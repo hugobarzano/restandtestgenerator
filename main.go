@@ -42,6 +42,8 @@ func main()  {
 			nodeAttributes := generator.GenerateNodeModel(serviceName+"_model",inputModel.Body)
 			generator.GenerateNODEBusinessModel(serviceName,nodeAttributes)
 
+			generator.TestGeneratorMainShell(input)
+
 		} else {
 			fmt.Println("NOT supported input file: "+file.Name())
 		}

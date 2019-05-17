@@ -37,4 +37,4 @@ backEndCore.use(function(req, res) {
 //RUN
 var port = process.env.PORT || 3006;
 backEndCore.listen(port);
-console.log(new Date()+ ' -- RESTFUL API server started on: '+port)
+console.log(new Date()+ ' -- API server started on: '+port)

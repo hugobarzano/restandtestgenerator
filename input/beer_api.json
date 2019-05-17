@@ -1,0 +1,13 @@
+[{
+  "name": "Beer for you",
+  "service": "/beer",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"Alhambra",
+    "grados": "los suficientes",
+    "unidades": 600600600,
+    "precio": 2
+  }
+}]
+

@@ -1,4 +1,4 @@
-package parser
+package generator
 
 import (
 	"encoding/json"
@@ -12,23 +12,6 @@ import (
 )
 
 var curl_template = "$(curl -X<http_verb> -i -k --write-out %{http_code} --output /dev/null <url><port><route>)"
-
-//func GenerateShellCurl(route models.ApiRoute) (string, error) {
-//
-//	//var curl_base :="curl -XGET -i -k http://localhost:8080"
-//	//var curl_template="curl -X<http_verb> -i -k <url><port><route>"
-//	//fmt.Println("[TEST GENERATOR]- Shell Generation")
-//	//for _,route := range(routes){
-//	//fmt.Println(route)
-//	teststep := strings.Replace(curl_template, "<http_verb>", "GET", 1)
-//	teststep = strings.Replace(teststep, "<url>", route.TestUrl, 1)
-//	teststep = strings.Replace(teststep, "<port>", route.Port, 1)
-//	teststep = strings.Replace(teststep, "<route>", route.Service, 1)
-//
-//	//fmt.Println(teststep)
-//	//}
-//	return teststep, nil
-//}
 
 func GenerateShellGET(route models.ApiRoute) string {
 	testStep := strings.Replace(curl_template, "<http_verb>", "GET", 1)
@@ -229,4 +212,62 @@ func GenerateShellTestCase(test_step []string, test_exe []string, template strin
 	fmt.Printf("Wrote %d bytes\n", bytesNun)
 	output_file.Sync()
 	return err
+}
+
+func Check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
+func TestGeneratorMainShell(fileConfig string)  {
+
+	config,err:=ReadJson(fileConfig)
+	Check(err)
+
+	var routes []models.ApiRoute
+	err=json.Unmarshal([]byte(config), &routes)
+	Check(err)
+
+	var step_test []string
+	var step_exec []string
+	var testFilename string
+	for _,route := range routes {
+
+		step,err:=GeneratePOSTShellStep(1,route,SHELL_TEMPLATE_STEP_TEST,"201")
+		Check(err)
+		step_test=append(step_test, step)
+		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(1)+"\"" )
+		step_exec=append(step_exec," " )
+
+
+		step,err=GenerateGETShellStep(2,route,SHELL_TEMPLATE_STEP_TEST,"200")
+		Check(err)
+		step_test=append(step_test, step)
+		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(2)+"\"" )
+		step_exec=append(step_exec," " )
+
+
+		step,err=GeneratePUTShellStep(3,route,SHELL_TEMPLATE_STEP_TEST,"200")
+		Check(err)
+		step_test=append(step_test, step)
+		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(3)+"\"" )
+		step_exec=append(step_exec," " )
+
+
+		step,err=GenerateDELETEShellStep(4,route,SHELL_TEMPLATE_STEP_TEST,"200")
+		Check(err)
+		step_test=append(step_test, step)
+		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(4)+"\"" )
+		step_exec=append(step_exec," " )
+
+		testFilename =strings.Replace(route.Service,"/","",-1)
+
+
+	}
+
+	err=GenerateShellTestCase(step_test,step_exec,SHELL_TEMPLATE_CASE_TEST,SHELL_OUTPUT+testFilename)
+	Check(err)
+
+
 }

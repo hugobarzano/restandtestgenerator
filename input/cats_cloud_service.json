@@ -1,0 +1,14 @@
+[{
+  "name": "Miauuu as a service",
+  "service": "/cats",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"Wurst",
+    "alias": "Mi bolita gatita bonita, la reina",
+    "reina": true,
+    "age": 1.5,
+    "color": "Negro como mi alma"
+  }
+}]
+
