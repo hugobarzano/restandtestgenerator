@@ -1,0 +1,27 @@
+\babel@toc {spanish}{}
+\contentsline {chapter}{\numberline {1}Resumen}{7}{chapter.1}
+\contentsline {chapter}{\numberline {2}Introducci\IeC {\'o}n}{9}{chapter.2}
+\contentsline {chapter}{\numberline {3}El Problema}{11}{chapter.3}
+\contentsline {section}{\numberline {3.1}Metodolog\IeC {\'\i }as \IeC {\'A}giles}{11}{section.3.1}
+\contentsline {subsubsection}{Scrum}{11}{section*.3}
+\contentsline {subsubsection}{Kanban}{12}{section*.4}
+\contentsline {subsubsection}{Lean}{13}{section*.5}
+\contentsline {subsubsection}{XP Programming}{14}{section*.6}
+\contentsline {section}{\numberline {3.2}Servicios web: REST}{15}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Arquitecturas Basadas en micro-servicios}{15}{subsection.3.2.1}
+\contentsline {section}{\numberline {3.3}GAC en Servicios Web}{16}{section.3.3}
+\contentsline {chapter}{\numberline {4}Desarrollo de la pr\IeC {\'a}ctica }{19}{chapter.4}
+\contentsline {section}{\numberline {4.1}Recursos de programaci\IeC {\'o}n utilizados}{19}{section.4.1}
+\contentsline {section}{\numberline {4.2}Especificaci\IeC {\'o}n de la soluci\IeC {\'o}n}{20}{section.4.2}
+\contentsline {section}{\numberline {4.3}Servicio Generado: GO}{21}{section.4.3}
+\contentsline {section}{\numberline {4.4}Servicio Generado: NODE}{21}{section.4.4}
+\contentsline {section}{\numberline {4.5}Test Generado: Caso de uso CRUD}{21}{section.4.5}
+\contentsline {section}{\numberline {4.6}Pruebas}{23}{section.4.6}
+\contentsline {chapter}{\numberline {5}Entrega}{33}{chapter.5}
+\contentsline {section}{\numberline {5.1}Generador}{33}{section.5.1}
+\contentsline {section}{\numberline {5.2}Makefile}{33}{section.5.2}
+\contentsline {section}{\numberline {5.3}TI\_CesarHugoBarzanoCruz.pdf}{33}{section.5.3}
+\contentsline {section}{\numberline {5.4}Directorio DOC}{33}{section.5.4}
+\contentsline {section}{\numberline {5.5}Directorio src/testgenerator/input}{34}{section.5.5}
+\contentsline {section}{\numberline {5.6}Directorio src/testgenerator/output}{34}{section.5.6}
+\contentsline {chapter}{\numberline {6}Anexo}{37}{chapter.6}
