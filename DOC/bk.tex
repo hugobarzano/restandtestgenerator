@@ -350,6 +350,7 @@ A grandes rasgos, en una ejecución nominal del generador, se leerán todos los 
 
 
 Los campos correspondientes al ejemplo de configuración representan: 
+
 \begin{enumerate}
 \item "name": Nombre común del servicio.
 \item "service": Api generada donde se expondrá el servicio.
@@ -357,6 +358,32 @@ Los campos correspondientes al ejemplo de configuración representan:
 \item "port": Puerto donde el servicio será expuesto.
 \item "body": Representa el modelo de negocio o modelo de datos. Es la entidad que el servicio será capaz de manejar.  Los datos de ejemplo dados serán usados en la generación de las pruebas. 
 \end{enumerate}
+
+\subsection{Comportamiento de la Solución}
+
+En la siguiente sección dedicada a Pruebas se ejemplificará el comportamiento del generador mediante unos casos de prueba. De manera literal, el generador cargará los ficheros de configuración ( directorio input) para cada uno de estos ficheros que especifican un servicio web: 
+
+\begin{enumerate}
+\item El generador producirá el Scaffolding o estructura base del servicio GO.
+\item El generador producirá el Scaffolding o estructura base del servicio NODE.
+\item  El generador producirá el Modelo de negocio y la configuración necesaria para la base de datos del servicio GO.
+\item El generador producirá el modelo de negocio para el servicio NODE.
+\item El generador producirá el TestCase relativo al servicio generado. El Test Case será producido en shell scripting por lo que puede ser independientemente ejecutado contra cualquiera de las tecnologías con las que el servicio es generado.
+\end{enumerate}
+
+\section{Alcance y Limitaciones}
+
+El generador propuesto es capaz de generar servicios funcionales en GO y en NODE. Los servicios generados están constituidos por una API REST CRUD que soporta los verbos http: GET, POST, PUT, DELETE.  El modelo de negocio generado para el servicio es dinámico. El Generador produce toda la configuración necesaria para la capa de persistencia. El generador produce todas las dependencias necesarias para la correcta ejecución del generador. 
+
+
+\subsection{ Servicio Generado: GO}
+
+El servicio generado para el ejemplo "Miauuu as a service"
+
+
+
+
+
 
 que los códigos de estado devueltos por el protocolo son los que marcan el comportamiento de las peticiones atendidas por el servicio web. 
 

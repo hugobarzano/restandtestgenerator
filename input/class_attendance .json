@@ -1,0 +1,11 @@
+[{
+  "name": "Attendance service",
+  "service": "/student",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"Cesar Hugo",
+    "attendance": true
+  }
+}]
+

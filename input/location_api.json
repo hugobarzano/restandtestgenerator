@@ -1,0 +1,13 @@
+[{
+  "name": "Players location",
+  "service": "/location",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "player":"suave93",
+    "x": 67.33,
+    "y": 45.66,
+    "z": 5.55
+  }
+}]
+
