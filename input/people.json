@@ -1,0 +1,13 @@
+[{
+  "name": "People for your bushiness",
+  "service": "/people",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"John Smith",
+    "company": "CesarCorp",
+    "job": "develop",
+    "city": "CDMX"
+  }
+}]
+

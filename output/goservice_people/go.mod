@@ -1,4 +1,4 @@
-module beer
+module people
 
 go 1.12
 

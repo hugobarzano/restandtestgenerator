@@ -5,7 +5,7 @@ module.exports = function(backEndCore){
 
   //backEndROUTES
   //var route='/models'
-  var route='/beer'
+  var route='/people'
   backEndCore.route(route)
     .get(backEndDrivers.list_all_models)
     .post(backEndDrivers.create_model);

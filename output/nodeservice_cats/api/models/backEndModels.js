@@ -4,10 +4,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 var ModelSchema = new Schema ({
-  name : String,
-alias : String,
-age : Number,
+  age : Number,
 color : String,
+name : String,
+alias : String,
 
 });
 

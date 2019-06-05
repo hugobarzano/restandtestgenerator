@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"beer/models"
+	"people/models"
 )
 
 //Repository ...
@@ -15,10 +15,10 @@ type Storer struct{
 }
 
 // DBNAME the name of the DB instance
-const DBNAME = "beerdb"
+const DBNAME = "peopledb"
 
 // COLLECTION is the name of the collection in DB
-const COLLECTION = "beers"
+const COLLECTION = "peoples"
 
 
 

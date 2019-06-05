@@ -4,12 +4,12 @@
 TestStep_1() {
 echo "----- Test Step - 1 -----"
 echo "TEST STEP - 1 "
-echo "API NAME: Beer for you"
-echo "URL: http://localhost:8080/beer"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
 echo "Scripting field..."
 #<<SCRIPT_PLACEHOLDER>>
 
-response_code=$(curl -XPOST -i -k "http://localhost:8080/beer" --write-out %{http_code} --output /dev/null -d  '{"grados":"los suficientes","ingradientes":"cosas buenas","name":"Alhambra","sabores":"ricoo"}' )
+response_code=$(curl -XPOST -i -k "http://localhost:8080/people" --write-out %{http_code} --output /dev/null -d  '{"city":"CDMX","company":"CesarCorp","job":"develop","name":"John Smith"}' )
 
 if [ $response_code = "201" ]; then
     echo "STEP - 1: PASS"
@@ -28,13 +28,13 @@ fi
 TestStep_2() {
 echo "----- Test Step - 2 -----"
 echo "TEST STEP - 2 "
-echo "API NAME: Beer for you"
-echo "URL: http://localhost:8080/beer"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
 echo "Scripting field..."
-get=$(curl -sb -H "Accept: application/json" "http://localhost:8080/beer" | jq '.[0]._id')  
+get=$(curl -sb -H "Accept: application/json" "http://localhost:8080/people" | jq '.[0]._id')  
   export ID=$get
 
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/beer)
+response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/people)
 
 if [ $response_code = "200" ]; then
     echo "STEP - 2: PASS"
@@ -53,12 +53,12 @@ fi
 TestStep_3() {
 echo "----- Test Step - 3 -----"
 echo "TEST STEP - 3 "
-echo "API NAME: Beer for you"
-echo "URL: http://localhost:8080/beer"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
 echo "Scripting field..."
 #<<SCRIPT_PLACEHOLDER>>
 
-response_code=$(curl -XPUT -i -k "http://localhost:8080/beer/${ID//\"}" --write-out %{http_code} --output /dev/null -d  '{"grados":"los suficientes_Update","ingradientes":"cosas buenas_Update","name":"Alhambra_Update","sabores":"ricoo_Update"}' )
+response_code=$(curl -XPUT -i -k "http://localhost:8080/people/${ID//\"}" --write-out %{http_code} --output /dev/null -d  '{"city":"CDMX_Update","company":"CesarCorp_Update","job":"develop_Update","name":"John Smith_Update"}' )
 
 if [ $response_code = "200" ]; then
     echo "STEP - 3: PASS"
@@ -77,12 +77,12 @@ fi
 TestStep_4() {
 echo "----- Test Step - 4 -----"
 echo "TEST STEP - 4 "
-echo "API NAME: Beer for you"
-echo "URL: http://localhost:8080/beer"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
 echo "Scripting field..."
 echo $ID
 
-response_code=$(curl -XDELETE -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/beer/${ID//\"})
+response_code=$(curl -XDELETE -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/people/${ID//\"})
 
 if [ $response_code = "200" ]; then
     echo "STEP - 4: PASS"

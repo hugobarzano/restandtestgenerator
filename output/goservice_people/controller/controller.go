@@ -9,8 +9,8 @@ import (
 
 	"fmt"
 	"github.com/gorilla/mux"
-	"beer/models"
-	"beer/mongo"
+	"people/models"
+	"people/mongo"
 	"strings"
 )
 //Controller ...

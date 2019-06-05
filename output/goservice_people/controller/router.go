@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 
-	"beer/mongo"
+	"people/mongo"
 )
 
 
@@ -25,7 +25,7 @@ type Routes []Route
 
 //Example var API_GENERATED = "/cats"
 
-var API_GENERATED = "/beer"
+var API_GENERATED = "/people"
 
 var routes = Routes {
 	Route {

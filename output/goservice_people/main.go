@@ -6,7 +6,7 @@ import (
 	"os"
 	"github.com/gorilla/handlers"
 
-	"beer/controller"
+	"people/controller"
 	"fmt"
 )
 
