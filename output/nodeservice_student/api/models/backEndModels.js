@@ -5,9 +5,6 @@ const Schema = mongoose.Schema;
 
 var ModelSchema = new Schema ({
   name : String,
-alias : String,
-age : Number,
-color : String,
 
 });
 
