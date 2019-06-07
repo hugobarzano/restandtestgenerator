@@ -6,6 +6,7 @@ import (
 	"reflect"
 )
 
+// Generate service folders and NODE base code
 func GenerateNODEServiceScaffolding(serviceName string)  {
 
 	err := CopyDir(nodeServiceScaffoldingDir, outputNODEServiceDir+serviceName)
@@ -24,7 +25,7 @@ func generateNODEBussinessAPI(serviceName string)  {
 }
 
 
-
+// Generate NODE Data Model from service spec input
 func GenerateNodeModel(modelName string, modelAttributes map[string]interface{}) string  {
 
 
@@ -41,6 +42,7 @@ func GenerateNodeModel(modelName string, modelAttributes map[string]interface{})
 	return modelBuffer.String()
 }
 
+// Generate NODE Business Model from DATA model
 func GenerateNODEBusinessModel(serviceName string,businessModel string)  {
 	placeHolderWriterInFile(outputNODEServiceDir+serviceName+"/api/models/backEndModels.js",
 		"//<<MODEL_PLACEHOLDER>>",

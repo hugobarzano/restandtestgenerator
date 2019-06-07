@@ -13,6 +13,7 @@ import (
 
 var curl_template = "$(curl -X<http_verb> -i -k --write-out %{http_code} --output /dev/null <url><port><route>)"
 
+// Generate Shell GET operation
 func GenerateShellGET(route models.ApiRoute) string {
 	testStep := strings.Replace(curl_template, "<http_verb>", "GET", 1)
 	testStep = strings.Replace(testStep, "<url>", route.Url, 1)
@@ -22,6 +23,7 @@ func GenerateShellGET(route models.ApiRoute) string {
 	return testStep
 }
 
+// Generate Shell DELETE operation
 func GenerateShellDELETE(route models.ApiRoute) string {
 	testStep := strings.Replace(curl_template, "<http_verb>", "DELETE", 1)
 	testStep = strings.Replace(testStep, "<url>", route.Url, 1)
@@ -31,6 +33,7 @@ func GenerateShellDELETE(route models.ApiRoute) string {
 	return testStep
 }
 
+// Generate Shell POST operation
 func GenerateShellPOST(route models.ApiRoute) string {
 	var local_template = "$(curl -X<http_verb> -i -k \"<url><port><route>\" --write-out %{http_code} --output /dev/null -d  <data> )"
 
@@ -43,6 +46,7 @@ func GenerateShellPOST(route models.ApiRoute) string {
 	return testStep
 }
 
+// Generate Shell PUT operation
 func GenerateShellPUT(route models.ApiRoute) string {
 	var local_template = "$(curl -X<http_verb> -i -k \"<url><port><route>\" --write-out %{http_code} --output /dev/null -d  <data> )"
 
@@ -93,7 +97,7 @@ func generateAlterData(route models.ApiRoute) string {
 	return string(b)
 }
 
-
+// Generate Shell TEST STEP with GET
 func GenerateGETShellStep(number int, route models.ApiRoute, template string, http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
@@ -114,6 +118,7 @@ func GenerateGETShellStep(number int, route models.ApiRoute, template string, ht
 	return code, err
 }
 
+// Generate Get model request cURL base
 func GenerateGetModel(number int, route models.ApiRoute) string   {
 
 	var ID_templeate = "get=$(curl -sb -H \"Accept: application/json\" \"<url>\" | jq '.[0]._id')"
@@ -126,6 +131,7 @@ func GenerateGetModel(number int, route models.ApiRoute) string   {
 
 }
 
+// Generate Shell TEST STEP with DELETE
 func GenerateDELETEShellStep(number int, route models.ApiRoute, template string,http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
@@ -146,7 +152,7 @@ func GenerateDELETEShellStep(number int, route models.ApiRoute, template string,
 	return code, err
 }
 
-
+// Generate Shell TEST STEP with POST
 func GeneratePOSTShellStep(number int, route models.ApiRoute, template string,http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
@@ -164,7 +170,7 @@ func GeneratePOSTShellStep(number int, route models.ApiRoute, template string,ht
 	return code, err
 }
 
-
+// Generate Shell TEST STEP with PUT
 func GeneratePUTShellStep(number int, route models.ApiRoute, template string, http_code string) (string, error) {
 
 	fmt.Println("[TEST GENERATOR]- Shell Step Generation")
@@ -183,7 +189,7 @@ func GeneratePUTShellStep(number int, route models.ApiRoute, template string, ht
 	return code, err
 }
 
-
+// Generate Shell Test Case for service
 func GenerateShellTestCase(test_step []string, test_exe []string, template string, output string) error {
 
 	fmt.Println("[TEST GENERATOR]- Shell TEST-CASE Generation")
@@ -214,12 +220,14 @@ func GenerateShellTestCase(test_step []string, test_exe []string, template strin
 	return err
 }
 
+// Check error utils
 func Check(e error) {
 	if e != nil {
 		panic(e)
 	}
 }
 
+// Generate Final TEST CASE shell script
 func TestGeneratorMainShell(fileConfig string)  {
 
 	config,err:=ReadJson(fileConfig)
@@ -240,20 +248,17 @@ func TestGeneratorMainShell(fileConfig string)  {
 		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(1)+"\"" )
 		step_exec=append(step_exec," " )
 
-
 		step,err=GenerateGETShellStep(2,route,SHELL_TEMPLATE_STEP_TEST,"200")
 		Check(err)
 		step_test=append(step_test, step)
 		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(2)+"\"" )
 		step_exec=append(step_exec," " )
 
-
 		step,err=GeneratePUTShellStep(3,route,SHELL_TEMPLATE_STEP_TEST,"200")
 		Check(err)
 		step_test=append(step_test, step)
 		step_exec=append(step_exec,"\"TestStep_"+strconv.Itoa(3)+"\"" )
 		step_exec=append(step_exec," " )
-
 
 		step,err=GenerateDELETEShellStep(4,route,SHELL_TEMPLATE_STEP_TEST,"200")
 		Check(err)
@@ -263,11 +268,7 @@ func TestGeneratorMainShell(fileConfig string)  {
 
 		testFilename =strings.Replace(route.Service,"/","",-1)
 
-
 	}
-
 	err=GenerateShellTestCase(step_test,step_exec,SHELL_TEMPLATE_CASE_TEST,SHELL_OUTPUT+testFilename)
 	Check(err)
-
-
 }

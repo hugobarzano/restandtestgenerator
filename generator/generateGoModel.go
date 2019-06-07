@@ -16,6 +16,7 @@ func generateInfo(attributeName string) string {
 	return infoBuffer.String()
 }
 
+// Generate Go Model from service spec
 func GenerateGoModel(modelName string, modelAttributes map[string]interface{}) string  {
 
 
@@ -40,12 +41,14 @@ func GenerateGoModel(modelName string, modelAttributes map[string]interface{}) s
 	return modelBuffer.String()
 }
 
+// Generate Go Business Model from Data Model
 func GenerateGOBusinessModel(serviceName string,businessModel string)  {
 	placeHolderWriterInFile(outputGOServiceDir+serviceName+"/models/bussinessObject.go",
 		"//<<MODEL_PLACEHOLDER>>",
 		businessModel)
 }
 
+// Generate MongoDB config
 func GenerateDatabaseConfig(serviceName string)  {
 
 	data := make(map[string]string)

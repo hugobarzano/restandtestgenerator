@@ -314,7 +314,7 @@ El generador ha sido desarrollado mediante el lenguaje de programación GO\cite{
 \item Uso de paquetes: Usa paquetes para organizar el código.
 \end{enumerate}
 
-El generador propuesto es capaz de generar servicios web en el lenguaje de programación GO y también en el lenguaje de programación Javascript\cite{js} haciendo uso del framework NODE. JavaScript es un lenguaje de programación interpretado. Se define como orientado a objetos, basado en prototipos, imperativo, débilmente tipado y dinámico. Node\cite{node} ( node.js)  es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome.
+El generador propuesto es capaz de generar servicios web en el lenguaje de programación GO y también en el lenguaje de programación Javascript\cite{js} haciendo uso del framework NODE. JavaScript es un lenguaje de programación interpretado. Se define como orientado a objetos, basado en prototipos, imperativo, débilmente tipado y dinámico. Node\cite{node} ( node.js)  es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome. Los servicios generados utilizan MongoDB\cite{mongo} como capa de persistencia. MongoDB es una base de datos no-relacional, también conocida como base de datos documental. Es ideal para el desarrollo de servicios web por sus prestaciones en R/W y su facilidad de escalado a modo de replica set o conjunto de maquinas (primaria-secundarias) capaces de comportarse como un cluser de datos,  por ejemplo. 
 
 De manera adicional y con el objetivo de validar que efectivamente el código generado para el servicio es correcto, el generador también produce una caso de uso básico en el que probar las capacidades CRUD(Create, Read, Update and Delete) del servicio. Para ello, el generador producirá un caso de uso en lenguaje de scripting BASH\cite{bash} donde usando la instrucción cURL\cite{curl} se automatizarán distintas peticiones HTTP al servicio generado. 
 
@@ -379,8 +379,7 @@ Por otra parte, el generador solo soporta tipos de dato String, Number y Boolean
 
 \section{Pruebas}
 
-En esta Sección, se plantean distintos escenarios con el objetivo de mostrar el comportamiento del generador ante distintos casos. Se realizará un total de 4 escenarios distintos. El código generado formará parte de la entrega. 
-
+En esta Sección, se plantean distintos escenarios con el objetivo de mostrar el comportamiento del generador ante distintos casos. Se realizará un total de 4 escenarios distintos. El código generado formará parte de la entrega pero adicionalmente puede consultarse en el directorio \href{https://github.com/hugobarzano/restandtestgenerator/tree/master/output}{hugobarzano/restandtestgenerator/output} del repositorio Github del proyecto. 
 
 \subsection{Escenario 1: People Service}
 
@@ -911,31 +910,26 @@ Finalmente se genera un servicio NODE, un servicio GO y un caso de prueba.sh par
 \caption{ Múltiples Outputs}  
 \end{figure}
 
-
-
 \chapter{Entrega}
-En este capítulo se detallan cada uno de los ficheros/directorios que forman parte de la entrega. 
+La presente entrega, contiene los ficheros correspondientes al README.md del proyecto, la licencia GNU-v3 del proyecto, el programa principal, los ficheros de dependencias del generador y dos ejecutables, uno para linux y otro para mac. De manera adicional, se incluyen los siguientes directorios:
 
-\section{Generador}
-El generador propuesto por el enunciado se compone de una serie de paquetes GO alojados dentro de testgenerator/src. El generador ha sido desarrollado sobre Ubuntu.18 y hace uso de la versión Go 1.10 pero al ser un lenguaje compilado, podemos elegir entre ejecutar el código fuente ( necesario tener GO instalado en el sistema o utilizar el ejecutable generado con la compilación.  
-
-\section{Makefile}
-El fichero ''makefile'' establece las distintas ejecuciones de pruebas para el generador.
+\section{DOC}
+El directorio DOC contiene los fuentes LaTEX con los que se ha confeccionado esta memoria. 
+\section{generator}
+Contiene el código GO relativo al generador de esta práctica. 
+\section{input}
+Directorio donde alojar las entradas del generador. En el residen las especificaciones de servicios a generar. 
+ \section{models}
+ Contiene el el paquete de código GO que el generador utiliza para generar las apis de los servicios. 
+\section{output}
+Contiene los servicios y casos de prueba producidos por el generador.  
+\section{resources}
+El directorio resources alberga las plantillas necesarias para que el generador sea capaz de generar pruebas y servicios. 
  
+\chapter{Conclusiones}
 
-\section{TI\_CesarHugoBarzanoCruz.pdf}
-Memoría de la práctica, referencia a este documento en si mismo, alojado en el directorio raíz de la entrega. 
+En la realización de este trabajo, se ha abordado un problema real que sufren distintas empresas en el mundo de los sistemas de la información aplicando técnicas de generación automática de código. Se puede apreciar que invirtiendo cierto esfuerzo o recursos en la implementación y mejora continua de un generador de código para servicios, permitiría generar valor de manera continua y ser competitiva con las cambiantes demandas del mercado, disponibilizando a clientes de las solución que requieren en un tiempo récord. La idea de esto es no hacer foco en intentar desarrollar y mantener cientos de servicios, la idea real es la de desarrollar las herramientas necesarias para mejorar el proceso de desarrollo y mantenimiento de gran cantidad de software. 
 
-\section{Directorio DOC}
-Directorio donde se almacenan todos los fuentes usados para generar esta documentación utilizando LaTEX. Incluye tambien las imagenes usadas en la memoria. 
-
-\section{Directorio src/testgenerator/input}
-Directorio donde se almacenan todos los ficheros usados como configuracion para el generador.
-
-\section{Directorio src/testgenerator/output}
-Directorio donde se almacenan todos los ficheros resultados de la ejecución de la pruebas. 
-
- 
 
 \begin{thebibliography}{aaaa}
 
@@ -1000,6 +994,9 @@ Directorio donde se almacenan todos los ficheros resultados de la ejecución de 
 \textit{command line tool and library for transferring data with URLs}
 \url{https://curl.haxx.se/}
 
+\bibitem{mongo} \textsc{mongoDB},
+\textit{MongoDB }
+\url{https://www.mongodb.com/es}
 
 
 \end{thebibliography}
@@ -1008,7 +1005,13 @@ Directorio donde se almacenan todos los ficheros resultados de la ejecución de 
 
 \chapter{Anexo}
 
+Adjunto información solicitada por la Agencia Nacional Evaluadora de los Títulos Oficiales
 
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.40]{imagenes/t24.png}
+\caption{ Anexo: Diagrama Gant}  
+\end{figure} 
 
 
 

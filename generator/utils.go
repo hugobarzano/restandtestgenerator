@@ -12,22 +12,22 @@ import (
 	"strings"
 )
 
+// Util to copy directories
 func CopyDir(src, dst string) error {
 	cmd := exec.Command("cp", "-r",src,dst)
 	log.Printf("Running cp -r")
 	return cmd.Run()
 }
 
-
+// Util to Read files in json format
 func ReadJson(file string) (string, error){
 	data, err := ioutil.ReadFile(file)
 	//fmt.Print(string(data))
 	return string(data),err
 }
 
+// Load input spec and generate service Api data models
 func LoadModelInput(pathFile string) models.ApiRoute {
-
-
 
 	config,err:=ReadJson(pathFile)
 

@@ -11,6 +11,7 @@ const apiTaskGenerator string = "resources/GO/service/controller/router.go"
 const modelsTaskGenerator string = "resources/GO/service/models/bussinessObject.go"
 const mainTaskGenerator string = "resources/GO/service/main.go"
 
+// Generate service folders and GO base code
 func GenerateGOServiceScaffolding(serviceName string)  {
 
 	err := CopyDir(goServiceScaffoldingDir, outputGOServiceDir+serviceName)

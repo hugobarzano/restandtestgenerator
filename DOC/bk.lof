@@ -11,7 +11,7 @@
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Servicio generado people.json}}{23}{figure.4.1}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Servicio generado people.json}}{23}{figure.4.2}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Ejemplo Ejecuci\IeC {\'o}n /people}}{24}{figure.4.3}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces test\_people.sh result}}{26}{figure.4.4}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces test\_people.sh result}}{27}{figure.4.4}
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Servicio generado location\_api.json}}{28}{figure.4.5}
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Servicio generado location\_api.json}}{28}{figure.4.6}
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Servicio corriendo /location }}{30}{figure.4.7}
@@ -22,3 +22,5 @@
 \contentsline {figure}{\numberline {4.12}{\ignorespaces M\IeC {\'u}ltiples Outputs}}{35}{figure.4.12}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Anexo: Diagrama Gant}}{43}{figure.7.1}
