@@ -17,10 +17,10 @@ exports.list_all_models = function(req, res) {
 exports.create_model = function(req, res) {
   console.log("POST MODEL::");
   var new_model = new Models(req.body);
-  console.log(new_model)
   new_model.save(function(err, model_save) {
     if (err)
       res.send(err);
+    res.statusCode=201;
     res.json(model_save);
   });
 };

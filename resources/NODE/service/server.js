@@ -35,6 +35,6 @@ backEndCore.use(function(req, res) {
 });
 
 //RUN
-var port = process.env.PORT || 3006;
+var port = process.env.PORT || 8080;
 backEndCore.listen(port);
 console.log(new Date()+ ' -- API server started on: '+port)

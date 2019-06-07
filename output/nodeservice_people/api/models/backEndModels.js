@@ -4,10 +4,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 var ModelSchema = new Schema ({
-  job : String,
-city : String,
-name : String,
+  name : String,
 company : String,
+job : String,
+city : String,
 
 });
 
