@@ -23,7 +23,7 @@
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage{afterpage}
-
+\usepackage{inputenc}
 \usepackage{longtable}
 
 \usepackage[pdfborder={000}]{hyperref} %referencia
@@ -314,7 +314,7 @@ El generador ha sido desarrollado mediante el lenguaje de programación GO\cite{
 \item Uso de paquetes: Usa paquetes para organizar el código.
 \end{enumerate}
 
-El generador propuesto es capaz de generar servicios web en el lenguaje de programación GO y también en el lenguaje de programación Javascript\cite{js} haciendo uso del framework NODE. JavaScript es un lenguaje de programación interpretado. Se define como orientado a objetos, basado en prototipos, imperativo, débilmente tipado y dinámico. Node\cite{node} ( node.js)  es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome.
+El generador propuesto es capaz de generar servicios web en el lenguaje de programación GO y también en el lenguaje de programación Javascript\cite{js} haciendo uso del framework NODE. JavaScript es un lenguaje de programación interpretado. Se define como orientado a objetos, basado en prototipos, imperativo, débilmente tipado y dinámico. Node\cite{node} ( node.js)  es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome. Los servicios generados utilizan MongoDB\cite{mongo} como capa de persistencia. MongoDB es una base de datos no-relacional, también conocida como base de datos documental. Es ideal para el desarrollo de servicios web por sus prestaciones en R/W y su facilidad de escalado a modo de replica set o conjunto de maquinas (primaria-secundarias) capaces de comportarse como un cluser de datos,  por ejemplo. 
 
 De manera adicional y con el objetivo de validar que efectivamente el código generado para el servicio es correcto, el generador también produce una caso de uso básico en el que probar las capacidades CRUD(Create, Read, Update and Delete) del servicio. Para ello, el generador producirá un caso de uso en lenguaje de scripting BASH\cite{bash} donde usando la instrucción cURL\cite{curl} se automatizarán distintas peticiones HTTP al servicio generado. 
 
@@ -330,7 +330,7 @@ Finalmente para la confección de esta memoria se ha utilizado LaTEX con el paqu
 
 El generador puede ser encontrado en el siguiente repositorio de Github \href{ https://github.com/hugobarzano/restandtestgenerator}{hugobarzano/restandtestgenerator} el código relativo al generador será entregado como parte del trabajo de investigación, pero para facilitar la comprensión de las partes que forman el generador, se hará referencia a dicho repositorio de GitHub. 
 
-A grandes rasgos, en una ejecución nominal del generador, se leerán todos los ficheros que se encuentren en el directorio  \href{https://github.com/hugobarzano/restandtestgenerator/tree/master/input}{input/}. Por cada uno de los ficheros de este directorio, el generador producirá el código funcional correspondiente a un servicio web en GO y en NODE. De manera adicional, se generará un caso de prueba donde se realizaran peticiones a la API generada mediante Shell scripting.  El siguiente bloque muestra un ejemplo de configuración, correspondiente al fichero de ejemplo  \href{https://github.com/hugobarzano/restandtestgenerator/blob/master/input/cats_cloud_service.json}{restandtestgenerator/input/cats_cloud_service.json}. 
+A grandes rasgos, en una ejecución nominal del generador, se leerán todos los ficheros que se encuentren en el directorio  \href{https://github.com/hugobarzano/restandtestgenerator/tree/master/input}{input/}. Por cada uno de los ficheros de este directorio, el generador producirá el código funcional correspondiente a un servicio web en GO y en NODE. De manera adicional, se generará un caso de prueba donde se realizaran peticiones a la API generada mediante Shell scripting.  El siguiente bloque muestra un ejemplo de configuración, correspondiente al fichero de ejemplo  \href{https://github.com/hugobarzano/restandtestgenerator/blob/master/input/cats\_cloud\_service.json}{restandtestgenerator/input/cats\_cloud\_service.json}. 
 
 \begin{lstlisting}[language=python,caption={ Ejemplo Entrada Generador }]
 [{
@@ -350,6 +350,7 @@ A grandes rasgos, en una ejecución nominal del generador, se leerán todos los 
 
 
 Los campos correspondientes al ejemplo de configuración representan: 
+
 \begin{enumerate}
 \item "name": Nombre común del servicio.
 \item "service": Api generada donde se expondrá el servicio.
@@ -358,331 +359,110 @@ Los campos correspondientes al ejemplo de configuración representan:
 \item "body": Representa el modelo de negocio o modelo de datos. Es la entidad que el servicio será capaz de manejar.  Los datos de ejemplo dados serán usados en la generación de las pruebas. 
 \end{enumerate}
 
-que los códigos de estado devueltos por el protocolo son los que marcan el comportamiento de las peticiones atendidas por el servicio web. 
+\subsection{Comportamiento de la Solución}
 
-\begin{figure}[H]  
-\centering 
-\includegraphics[scale=0.35]{imagenes/http.jpg}
-\caption{ HTTP Status Codes}  
-\end{figure}
+En la siguiente sección dedicada a Pruebas se ejemplificará el comportamiento del generador mediante unos casos de prueba. De manera literal, el generador cargará los ficheros de configuración ( directorio input) para cada uno de estos ficheros que especifican un servicio web: 
 
+\begin{enumerate}
+\item El generador producirá el Scaffolding o estructura base del servicio GO.
+\item El generador producirá el Scaffolding o estructura base del servicio NODE.
+\item  El generador producirá el Modelo de negocio y la configuración necesaria para la base de datos del servicio GO.
+\item El generador producirá el modelo de negocio para el servicio NODE.
+\item El generador producirá el TestCase relativo al servicio generado. El Test Case será producido en shell scripting por lo que puede ser independientemente ejecutado contra cualquiera de las tecnologías con las que el servicio es generado.
+\end{enumerate}
 
-\begin{lstlisting}[language=python,caption={ Entrada Unitaria Configuración Generador }]
-[{
-  "name": "basic web app",
-  "route": "/",
-  "http_verb": "GET",
-  "url": "http://localhost",
-  "port":":8080",
-  "body": "",
-  "expected_code":"200"
-}]
-\end{lstlisting}
+\section{Alcance y Limitaciones}
 
+El generador propuesto es capaz de generar servicios funcionales en GO y en NODE. Los servicios generados están constituidos por una API REST CRUD que soporta los verbos http: GET, POST, PUT, DELETE.  El modelo de negocio generado para el servicio es dinámico. El Generador produce toda la configuración necesaria para la capa de persistencia. El generador produce todas las dependencias necesarias para la correcta ejecución del servicio. El generador produce un caso de uso que permite validar el correcto funcionamiento del servicio generado. 
 
-\section{Servicio Generado: GO}
-\section{Servicio Generado: NODE}
-\section{Test Generado: Caso de uso CRUD}
+Por otra parte, el generador solo soporta tipos de dato String, Number y Boolean, podría ser extendido mediante un JsonSchema para aceptar tipos de datos y objetos complejos. La capa de persistencia de los servicios generados es mongoDB, es decir, están acoplados a este tipo de tecnología, podría ser extendido para soportar distintas tecnologías como capa de persistencia. El generador solo produce servicios en Go y NODE, podría ser extendido para generar servicios en Python. El generador podría utilizar algún framework de testing para generar más pruebas para los servicios. 
 
-\begin{lstlisting}[language=python,caption={ Entrada Unitaria Configuración Generador }]
-[{
-  "name": "basic web app",
-  "route": "/",
-  "http_verb": "GET",
-  "url": "http://localhost",
-  "port":":8080",
-  "body": "",
-  "expected_code":"200"
-}]
-
-\end{lstlisting}
-
-Para cada uno de estas entradas, el generador producirá el siguiente TestStep:  
-\begin{lstlisting}[language=python,caption={ Test Step  }]
-TestStep_0() {
-echo "----- Test Step - 0 -----"
-echo "TEST STEP - 0 "
-echo "API NAME: basic web app"
-echo "URL: http://localhost:8080/"
-
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/)
-
-if [ $response_code = "200" ]; then
-    echo "STEP - 0: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 0: FAIL"
-  return 1
-fi
-}
- \end{lstlisting}
- 
- Con el conjunto de TestSteps que el generador produzca, se creará un TestCase como el que se muestra a continuación: 
- \begin{lstlisting}[language=python,caption={ Test Case  }]
- #!/usr/bin/env bash
-
-echo
-TestStep_0() {
-echo "----- Test Step - 0 -----"
-echo "TEST STEP - 0 "
-echo "API NAME: basic web app"
-echo "URL: http://localhost:8080/"
-
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/)
-
-if [ $response_code = "200" ]; then
-    echo "STEP - 0: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 0: FAIL"
-  return 1
-fi
-}
-echo "----- --- -----"
-echo
-
-echo
-TestStep_1() {
-echo "----- Test Step - 1 -----"
-echo "TEST STEP - 1 "
-echo "API NAME: basic web app"
-echo "URL: localhost:8080/users"
-
-response_code=$(curl -XPOST -i -k --write-out %{http_code} --output /dev/null localhost:8080/users)
-
-if [ $response_code = "" ]; then
-    echo "STEP - 1: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 1: FAIL"
-  return 1
-fi
-}
-echo "----- --- -----"
-echo
-
-TEST_PASS=0
-TEST_FAIL=0
-TOTAL_TEST=0
-declare -a arr=("TestStep_0" "TestStep_1" )
-
-for i in "${arr[@]}"
-do
-    if $i; then
-        TEST_PASS=$((TEST_PASS+1));
-    else
-        TEST_FAIL=$((TEST_FAIL+1));
-fi
-done
-
-echo
-echo
-echo "--- TEST CASE REPORT ---"
-echo "TEST PASS: " $TEST_PASS
-echo "TEST FAIL: " $TEST_FAIL
-echo "TOTAL EXECUTED: " ${#arr[@]}
-echo "--- --- --- --- --- ---"
- \end{lstlisting}
-
-Este TestCase será el encargado de ejecutar todos los Test Steps, dando un informe del estado de la API, o APIS que se esten probando con la configuración de entrada.  
- 
 \section{Pruebas}
 
-Con el Objetivo de mostrar la potencia del generador, se van a realizar una serie de ejecuciones de prueba para mostrar los posibles escenarios del generador. Para ello es necesario disponer de un servicio web sobre el que generar y ejecutar los casos de prueba generados.  En este caso, disponemos de un servicio de web basado contenedores ejecutalo localmente, los fuentes del servicio web usado para testear pueden encontrarse aquí
-\href{DATARESTFUL}{https://github.com/hugobarzano/DataRestful}
+En esta Sección, se plantean distintos escenarios con el objetivo de mostrar el comportamiento del generador ante distintos casos. Se realizará un total de 4 escenarios distintos. El código generado formará parte de la entrega pero adicionalmente puede consultarse en el directorio \href{https://github.com/hugobarzano/restandtestgenerator/tree/master/output}{hugobarzano/restandtestgenerator/output} del repositorio Github del proyecto. 
 
-\subsection*{TestCase1}
+\subsection{Escenario 1: People Service}
 
-El primer caso de prueba, utilizará como configuracion un solo end-point de api y puede ser generado mediante \textbf{make generateTestCase1 }
+En este escenario se va a generar el siguiente servicio:
 
- \begin{lstlisting}[language=python,caption={ TestCase1.json  }]
+\begin{lstlisting}[language=python,caption={ Ejemplo Entrada Generador: people.json }]
 [{
-  "name": "basic web app",
-  "route": "/",
-  "http_verb": "GET",
+  "name": "People for your bushiness",
+  "service": "/people",
   "url": "http://localhost",
   "port":":8080",
-  "body": "",
-  "expected_code":"200"
-}
-]
-\end{lstlisting}
-
-El generador producirá la siguiente salida:
-\begin{figure}[H]  
-\centering 
-\includegraphics[scale=0.35]{imagenes/TestCase1_1.png}
-\caption{ TestCase1 }  
-\end{figure} 
-
-Una vez generado el primer caso de prueba y con el servicio web corriendo, podemos ejecutarlo mediante \textbf{make runTestCase1} produciendo el siguiente resultado:
-
-El generador producirá la siguiente salida:
-\begin{figure}[H]  
-\centering 
-\includegraphics[scale=0.35]{imagenes/TestCase1_2.png}
-\caption{ RUN TestCase1 }  
-\end{figure} 
-
-
-\subsection*{TestCase2}
-
-El segundo caso de prueba, utilizará como configuracion un 2 end-point de api para disintos recursos y puede ser generado mediante \textbf{make generateTestCase2 }
-
- \begin{lstlisting}[language=python,caption={ TestCase2.json  }]
-[{
-  "name": "Datarestful - Index",
-  "route": "/",
-  "http_verb": "GET",
-  "url": "http://localhost",
-  "port":":8080",
-  "body": "",
-  "expected_code":"200"
-},
-  {
-    "name": "Datarestful",
-    "route": "/Services/",
-    "http_verb": "GET",
-    "url": "http://localhost",
-    "port":":8080",
-    "body": "",
-    "expected_code":"200"
+  "body": {
+    "name":"John Smith",
+    "company": "CesarCorp",
+    "job": "develop",
+    "city": "CDMX"
   }
-]
-
-
+}]
 \end{lstlisting}
 
-Una vez generado el segundo caso de prueba y con el servicio web corriendo, podemos ejecutarlo mediante \textbf{make runTestCase2} produciendo el siguiente resultado:
+Básicamente consiste en una API para disponibilizar información sobre los empleados de una empresa. Como se puede observar, el modelo de negocio de este servicio está formado íntegramente por strings.
+En este escenario el análisis se centrará en mostrar el código GO generado, su ejecución y posteriormente validación con el propio test generado. Para ello, es necesario guardar la entrada arriba indicada en un fichero denominado people.json dentro del directorio input/ del proyecto. Una ves establecida la entrada en el directorio necesario, es necesario ejecutar el generador usando el ejecutable adecuado para la plataforma sobre la que se realicen las pruebas, en este caso MAC: 
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Entrada Generador: people.json }]
+\$  ./restandtestgenerator.darwin 
+\end{lstlisting} 
+
+Tras la ejecución, en el directorio output/ se ha generado el siguiente contenido:
 
 \begin{figure}[H]  
 \centering 
-\includegraphics[scale=0.35]{imagenes/TestCase2_2.png}
-\caption{ RUN TestCase2 }  
-\end{figure} 
+\includegraphics[scale=0.35]{imagenes/t11.png}
+\caption{ Servicio generado people.json}  
+\end{figure}
+
+Como se puede observar, se ha generado el servicio Go, el servicio NODE y el test\_case.sh. En este escenario se va a poner el foco en goservice\_people. La estructura generada es la siguiente:
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.35]{imagenes/t12.png}
+\caption{ Servicio generado people.json}  
+\end{figure}
+
+Se pueden apreciar los siguientes paquetes:
+
+\begin{enumerate}
+\item controller: Encargado de todo lo relacionado con la API del servicio
+\item models: Donde el modelo de negocio toma entidad
+\item mongo: Paquete responsable de la comunicación con la capa de persistencia
+\item main.go: Programa principal
+\item ficheros go.mod y go.sum: Lugar en el que se especifican las dependencias del servicio
+\end{enumerate}
+
+Para ejecutar el servicio generado /people seria necesario: 
 
 
-\subsection*{TestCase3}
+\begin{lstlisting}[language=python,caption={ Ejemplo Ejecución /people }]
+\$  cd output/goservice_people
+\$ go run main.go
+\end{lstlisting} 
 
-El tercer caso de prueba, utilizará como configuracion un muchos end-point de api para disintos recursos y puede ser generado mediante \textbf{make generateTestCase3 }
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.35]{imagenes/t13.png}
+\caption{ Ejemplo Ejecución /people}  
+\end{figure}
 
- \begin{lstlisting}[language=python,caption={ TestCase3.json  }]
-[{
-  "name": "Datarestful - Index",
-  "route": "/",
-  "http_verb": "GET",
-  "url": "http://localhost",
-  "port":":8080",
-  "body": "",
-  "expected_code":"200"
-},
-  {
-    "name": "Datarestful",
-    "route": "/Services/",
-    "http_verb": "GET",
-    "url": "http://localhost",
-    "port":":8080",
-    "body": "",
-    "expected_code":"200"
-  },
-  {
-    "name": "Datarestful - Index",
-    "route": "/",
-    "http_verb": "GET",
-    "url": "http://localhost",
-    "port":":8080",
-    "body": "",
-    "expected_code":"200"
-  },
-  {
-    "name": "Datarestful",
-    "route": "/Services/",
-    "http_verb": "GET",
-    "url": "http://localhost",
-    "port":":8080",
-    "body": "",
-    "expected_code":"200"
-  },{
-  "name": "Datarestful - Index",
-  "route": "/",
-  "http_verb": "GET",
-  "url": "http://localhost",
-  "port":":8080",
-  "body": "",
-  "expected_code":"200"
-},
-  {
-    "name": "Datarestful",
-    "route": "/Services/",
-    "http_verb": "GET",
-    "url": "http://localhost",
-    "port":":8080",
-    "body": "",
-    "expected_code":"200"
-  },{
-  "name": "Datarestful - Index",
-  "route": "/",
-  "http_verb": "GET",
-  "url": "http://localhost",
-  "port":":8080",
-  "body": "",
-  "expected_code":"200"
-},
-  {
-    "name": "Datarestful",
-    "route": "/Services/",
-    "http_verb": "GET",
-    "url": "http://localhost",
-    "port":":8080",
-    "body": "",
-    "expected_code":"200"
-  }
-]
+De manera adicional, el generador ha producido el siguiente test\_people.sh para el escenario:
 
-
-
-
-\end{lstlisting}
-
-Una vez generado el tercer caso de prueba usando \textbf{make generateTestCase3} y con el servicio web corriendo, podemos ejecutarlo mediante \textbf{make runTestCase3}. Al tratarse de 7 end-points de api, lo  generado y ejecutado mediante make es: 
-
-\begin{lstlisting}[language=python,caption={ TestCase3.sh  }]
+\begin{lstlisting}[language=python,caption={  test\_people.sh }]
 #!/usr/bin/env bash
 
-echo
-TestStep_0() {
-echo "----- Test Step - 0 -----"
-echo "TEST STEP - 0 "
-echo "API NAME: Datarestful - Index"
-echo "URL: http://localhost:8080/"
-
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/)
-
-if [ $response_code = "200" ]; then
-    echo "STEP - 0: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 0: FAIL"
-  return 1
-fi
-}
-echo "----- --- -----"
-echo
-
-echo
 TestStep_1() {
 echo "----- Test Step - 1 -----"
 echo "TEST STEP - 1 "
-echo "API NAME: Datarestful"
-echo "URL: http://localhost:8080/Services/"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
+echo "Scripting field..."
+#<<SCRIPT_PLACEHOLDER>>
 
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/Services/)
+response_code=$(curl -XPOST -i -k "http://localhost:8080/people" --write-out %{http_code} --output /dev/null -d  '{"city":"CDMX","company":"CesarCorp","job":"develop","name":"John Smith"}' )
 
-if [ $response_code = "200" ]; then
+if [ $response_code = "201" ]; then
     echo "STEP - 1: PASS"
     echo "----- --- -----"
     return 0
@@ -690,18 +470,19 @@ else
   echo "STEP - 1: FAIL"
   return 1
 fi
-}
-echo "----- --- -----"
-echo
 
-echo
+}
+
 TestStep_2() {
 echo "----- Test Step - 2 -----"
 echo "TEST STEP - 2 "
-echo "API NAME: Datarestful - Index"
-echo "URL: http://localhost:8080/"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
+echo "Scripting field..."
+get=$(curl -sb -H "Accept: application/json" "http://localhost:8080/people" | jq '.[0]._id')  
+  export ID=$get
 
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/)
+response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/people)
 
 if [ $response_code = "200" ]; then
     echo "STEP - 2: PASS"
@@ -711,18 +492,18 @@ else
   echo "STEP - 2: FAIL"
   return 1
 fi
-}
-echo "----- --- -----"
-echo
 
-echo
+}
+
 TestStep_3() {
 echo "----- Test Step - 3 -----"
 echo "TEST STEP - 3 "
-echo "API NAME: Datarestful"
-echo "URL: http://localhost:8080/Services/"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
+echo "Scripting field..."
+#<<SCRIPT_PLACEHOLDER>>
 
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/Services/)
+response_code=$(curl -XPUT -i -k "http://localhost:8080/people/${ID//\"}" --write-out %{http_code} --output /dev/null -d  '{"city":"CDMX_Update","company":"CesarCorp_Update","job":"develop_Update","name":"John Smith_Update"}' )
 
 if [ $response_code = "200" ]; then
     echo "STEP - 3: PASS"
@@ -732,18 +513,18 @@ else
   echo "STEP - 3: FAIL"
   return 1
 fi
-}
-echo "----- --- -----"
-echo
 
-echo
+}
+
 TestStep_4() {
 echo "----- Test Step - 4 -----"
 echo "TEST STEP - 4 "
-echo "API NAME: Datarestful - Index"
-echo "URL: http://localhost:8080/"
+echo "API NAME: People for your bushiness"
+echo "URL: http://localhost:8080/people"
+echo "Scripting field..."
+echo $ID
 
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/)
+response_code=$(curl -XDELETE -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/people/${ID//\"})
 
 if [ $response_code = "200" ]; then
     echo "STEP - 4: PASS"
@@ -753,78 +534,240 @@ else
   echo "STEP - 4: FAIL"
   return 1
 fi
+
 }
-echo "----- --- -----"
-echo
-
-echo
-TestStep_5() {
-echo "----- Test Step - 5 -----"
-echo "TEST STEP - 5 "
-echo "API NAME: Datarestful"
-echo "URL: http://localhost:8080/Services/"
-
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/Services/)
-
-if [ $response_code = "200" ]; then
-    echo "STEP - 5: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 5: FAIL"
-  return 1
-fi
-}
-echo "----- --- -----"
-echo
-
-echo
-TestStep_6() {
-echo "----- Test Step - 6 -----"
-echo "TEST STEP - 6 "
-echo "API NAME: Datarestful - Index"
-echo "URL: http://localhost:8080/"
-
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/)
-
-if [ $response_code = "200" ]; then
-    echo "STEP - 6: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 6: FAIL"
-  return 1
-fi
-}
-echo "----- --- -----"
-echo
-
-echo
-TestStep_7() {
-echo "----- Test Step - 7 -----"
-echo "TEST STEP - 7 "
-echo "API NAME: Datarestful"
-echo "URL: http://localhost:8080/Services/"
-
-response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/Services/)
-
-if [ $response_code = "200" ]; then
-    echo "STEP - 7: PASS"
-    echo "----- --- -----"
-    return 0
-else
-  echo "STEP - 7: FAIL"
-  return 1
-fi
-}
-echo "----- --- -----"
-echo
 
 TEST_PASS=0
 TEST_FAIL=0
 TOTAL_TEST=0
 
-declare -a arr=("TestStep_0" "TestStep_1" "TestStep_2" "TestStep_3" "TestStep_4" "TestStep_5" "TestStep_6" "TestStep_7" )
+declare -a arr=("TestStep_1" "TestStep_2" "TestStep_3" "TestStep_4" )
+
+for i in "${arr[@]}"
+do
+    if $i; then
+        TEST_PASS=$((TEST_PASS+1));
+    else
+        TEST_FAIL=$((TEST_FAIL+1));
+fi
+done
+
+echo "--- TEST CASE REPORT ---"
+echo "TEST PASS: " $TEST_PASS
+echo "TEST FAIL: " $TEST_FAIL
+echo "TOTAL EXECUTED: " ${#arr[@]}
+echo "--- --- --- --- --- ---"
+\end{lstlisting} 
+
+Dicho test puede ser ejecutado contra el actual servicio en ejecución de la siguiente manera:
+
+
+\begin{lstlisting}[language=python,caption={  exec test\_people.sh }]
+chmod +x test_people.sh
+./test_people.sh
+\end{lstlisting} 
+
+El resultado de dicha ejecución valida que el servicio generado funciona correctamente:
+
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.25]{imagenes/t14.png}
+\caption{ test\_people.sh result}  
+\end{figure}
+
+\subsection{Escenario 2: Players Location}
+
+En este escenario, se va a generar el servicio /location capaz de manejar las posiciones de jugadores en un sistema de coordenadas, de gran utilidad por ejemplo en el back-end de juegos móviles. El objeto de este escenario es mostrar la capacidad del generador para generar objetos de negocio tipo numérico. De manera adicional, en este escenario se hará foco en el servicio NODE generado. El servicio generado en cuestión es:
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Entrada Generador: location\_api.json }]
+[{
+  "name": "Players location",
+  "service": "/location",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "player":"suave93",
+    "x": 67.33,
+    "y": 45.66,
+    "z": 5.55
+  }
+}]
+\end{lstlisting}
+
+Para ello, es necesario guardar esta especificación de servicio en un fichero denominado location\_api.json dentro del directorio input y ejecutar el generador:
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Ejecución Generador: location\_api.json }]
+\$  ./restandtestgenerator.darwin 
+\end{lstlisting} 
+
+Tras la ejecución, en el directorio output/ se ha generado el siguiente contenido:
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.35]{imagenes/t21.png}
+\caption{ Servicio generado location\_api.json}  
+\end{figure}
+
+Como se puede observar, se ha generado el servicio Go, el servicio NODE y el test\_case.sh. En este escenario se va a poner el foco en nodeservice\_location. La estructura generada es la siguiente:
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.35]{imagenes/t22.png}
+\caption{ Servicio generado location\_api.json}  
+\end{figure}
+
+Se pueden apreciar los siguientes modulos:
+
+\begin{enumerate}
+\item api/drivers: Contiene el código necesario para la comunicación con la capa de persistencia
+\item api/models: Contiene el modelo de negocio generado para el servicio
+\item routes: Contiene el código de la API del servicio
+\item server.js: Fichero principal del servidor de aplicaciones
+\item package.json: Ficho de dependencias. Pendiente de inicializar. 
+\end{enumerate}
+
+
+Para inicializar el servicio NODE  /location seria necesario ejecutar y contestar a las preguntas de npm: 
+
+\begin{lstlisting}[language=python,caption={ Ejemplo inicialización /location }]
+\$  npm init
+{
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "express": "~4.16.2",
+    "mongoose": "^5.4.15",
+    "package.json": "^2.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "nodeservice_location",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC"
+}
+\end{lstlisting} 
+
+Para instalar las dependencias que el servicio NODE necesita: 
+
+\begin{lstlisting}[language=python,caption={ Ejemplo instalación /location }]
+$ npm install
+\end{lstlisting} 
+
+Para ejecutar el servicio NODE: 
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Ejecución /location }]
+$ npm start
+\end{lstlisting} 
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.35]{imagenes/t23.png}
+\caption{ Servicio corriendo /location }  
+\end{figure}
+
+
+De manera adicional, el generador ha producido el siguiente test\_location.sh para el escenario:
+
+\begin{lstlisting}[language=python,caption={  test\_location.sh }]
+#!/usr/bin/env bash
+
+TestStep_1() {
+echo "----- Test Step - 1 -----"
+echo "TEST STEP - 1 "
+echo "API NAME: Players location"
+echo "URL: http://localhost:8080/location"
+echo "Scripting field..."
+#<<SCRIPT_PLACEHOLDER>>
+
+response_code=$(curl -XPOST -i -k "http://localhost:8080/location" --write-out %{http_code} --output /dev/null -d  '{"player":"suave93","x":67.33,"y":45.66,"z":5.55}' )
+
+if [ $response_code = "201" ]; then
+    echo "STEP - 1: PASS"
+    echo "----- --- -----"
+    return 0
+else
+  echo "STEP - 1: FAIL"
+  return 1
+fi
+
+}
+
+TestStep_2() {
+echo "----- Test Step - 2 -----"
+echo "TEST STEP - 2 "
+echo "API NAME: Players location"
+echo "URL: http://localhost:8080/location"
+echo "Scripting field..."
+get=$(curl -sb -H "Accept: application/json" "http://localhost:8080/location" | jq '.[0]._id')  
+  export ID=$get
+
+response_code=$(curl -XGET -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/location)
+
+if [ $response_code = "200" ]; then
+    echo "STEP - 2: PASS"
+    echo "----- --- -----"
+    return 0
+else
+  echo "STEP - 2: FAIL"
+  return 1
+fi
+
+}
+
+TestStep_3() {
+echo "----- Test Step - 3 -----"
+echo "TEST STEP - 3 "
+echo "API NAME: Players location"
+echo "URL: http://localhost:8080/location"
+echo "Scripting field..."
+#<<SCRIPT_PLACEHOLDER>>
+
+response_code=$(curl -XPUT -i -k "http://localhost:8080/location/${ID//\"}" --write-out %{http_code} --output /dev/null -d  '{"player":"suave93_Update","x":68.33,"y":46.66,"z":6.55}' )
+
+if [ $response_code = "200" ]; then
+    echo "STEP - 3: PASS"
+    echo "----- --- -----"
+    return 0
+else
+  echo "STEP - 3: FAIL"
+  return 1
+fi
+
+}
+
+TestStep_4() {
+echo "----- Test Step - 4 -----"
+echo "TEST STEP - 4 "
+echo "API NAME: Players location"
+echo "URL: http://localhost:8080/location"
+echo "Scripting field..."
+echo $ID
+
+response_code=$(curl -XDELETE -i -k --write-out %{http_code} --output /dev/null http://localhost:8080/location/${ID//\"})
+
+if [ $response_code = "200" ]; then
+    echo "STEP - 4: PASS"
+    echo "----- --- -----"
+    return 0
+else
+  echo "STEP - 4: FAIL"
+  return 1
+fi
+
+}
+
+TEST_PASS=0
+TEST_FAIL=0
+TOTAL_TEST=0
+
+declare -a arr=("TestStep_1" "TestStep_2" "TestStep_3" "TestStep_4" )
 
 for i in "${arr[@]}"
 do
@@ -843,33 +786,150 @@ echo "TEST PASS: " $TEST_PASS
 echo "TEST FAIL: " $TEST_FAIL
 echo "TOTAL EXECUTED: " ${#arr[@]}
 echo "--- --- --- --- --- ---"
+\end{lstlisting} 
 
+Dicho test puede ser ejecutado contra el actual servicio en ejecución de la siguiente manera:
+
+
+\begin{lstlisting}[language=python,caption={  exec test\_location.sh }]
+chmod +x test_location.sh
+./test_location.sh
+\end{lstlisting} 
+
+El resultado de dicha ejecución valida que el servicio generado funciona correctamente:
+
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.25]{imagenes/t24.png}
+\caption{ test\_location.sh result}  
+\end{figure}
+
+Es interesante tener en cuenta que los códigos de estado devueltos por el protocolo HTTP son los que marcan el comportamiento de las peticiones atendidas por el servicio web y son usados por el test case para validar el resultado. 
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.35]{imagenes/http.jpg}
+\caption{ HTTP Status Codes}  
+\end{figure}
+
+\subsection{Escenario 3: Miauuu as a service}
+
+En este escenario se va ha generar el siguiente servicio:
+
+\begin{lstlisting}[language=python,caption={ cats\_cloud\_service.json }]
+[{
+  "name": "Miauuu as a service",
+  "service": "/cats",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"Wurst",
+    "alias": "Mi bolita gatita bonita, la reina",
+    "reina": true,
+    "age": 1.5,
+    "color": "Negro como mi alma"
+  }
+}]
 \end{lstlisting}
 
+El objetivo de este escenario es mostrar el modelo de negocio generado tanto en GO como en NODE. Para generar el servicio es necesario guardar en el directorio input/ la anterior especificación en un fichero denominado cats\_cloud\_service.json y ejecutar:
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Ejecución Generador: cats\_cloud\_service.json  }]
+\$  ./restandtestgenerator.darwin 
+\end{lstlisting} 
+
+Dicha ejecución produce el siguiente código: 
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.25]{imagenes/t31.png}
+\caption{ Servicios /cats generados}  
+\end{figure}
+
+Navegando hasta output/goservice\_cats/models/bussinessObject.go se puede observar el modelo de negoció generado para el servicio en GO:
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Modelo de negocio GO  }]
+type BusinessObject struct {
+	ID     string     	 `bson:"_id" json:"_id,omitempty"`
+	Alias    string    `bson:"alias" json:"alias,omitempty"`
+	Reina    bool    `bson:"reina" json:"reina,omitempty"`
+	Age    float64    `bson:"age" json:"age,omitempty"`
+	Color    string    `bson:"color" json:"color,omitempty"`
+	Name    string    `bson:"name" json:"name,omitempty"`
+}
+\end{lstlisting} 
+
+Navegando hasta output/nodeservice\_cats/api/models/backEndModels.js se puede observar el modelo de negoció generado para el servicio en NODE:
+
+\begin{lstlisting}[language=python,caption={  Ejemplo Modelo de negocio NODE }]
+var ModelSchema = new Schema ({
+  alias : String,
+  age : Number,
+  color : String,
+  name : String,
+});
+\end{lstlisting} 
+
+\subsection{Escenario 4: Múltiples Servicios}
+
+En este escenario se va a mostrar la capacidad del generador para producir múltiples servicios. Para ello, dentro del directorio input/ se van a guardar las especificaciones de servicio usadas en los ejemplos anteriores junto con la siguiente servicio. Dicho servicio ejemplifica la posibilidad de usar un servicio web para controlar la asistencia de alumnos a cierta asignatura y el uso del tipo de dato boolean. 
+
+\begin{lstlisting}[language=python,caption={  Ejemplo definición servicio class\_attendance.json}]
+[{
+  "name": "Attendance service",
+  "service": "/student",
+  "url": "http://localhost",
+  "port":":8080",
+  "body": {
+    "name":"Cesar Hugo",
+    "attendance": true
+  }
+}]
+\end{lstlisting} 
+
+El directorio de entrada quedaría con el siguiente ficheros de especificación: 
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.25]{imagenes/t41.png}
+\caption{ Múltiples Inputs}  
+\end{figure}
+
+Ejecutar el generador: 
+
+\begin{lstlisting}[language=python,caption={ Ejemplo Ejecución Generador: múltiples inputs  }]
+\$  ./restandtestgenerator.darwin 
+\end{lstlisting} 
+
+Finalmente se genera un servicio NODE, un servicio GO y un caso de prueba.sh para cada uno de los servicios. 
+
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.25]{imagenes/t42.png}
+\caption{ Múltiples Outputs}  
+\end{figure}
 
 \chapter{Entrega}
-En este capítulo se detallan cada uno de los ficheros/directorios que forman parte de la entrega. 
+La presente entrega, contiene los ficheros correspondientes al README.md del proyecto, la licencia GNU-v3 del proyecto, el programa principal, los ficheros de dependencias del generador y dos ejecutables, uno para linux y otro para mac. De manera adicional, se incluyen los siguientes directorios:
 
-\section{Generador}
-El generador propuesto por el enunciado se compone de una serie de paquetes GO alojados dentro de testgenerator/src. El generador ha sido desarrollado sobre Ubuntu.18 y hace uso de la versión Go 1.10 pero al ser un lenguaje compilado, podemos elegir entre ejecutar el código fuente ( necesario tener GO instalado en el sistema o utilizar el ejecutable generado con la compilación.  
-
-\section{Makefile}
-El fichero ''makefile'' establece las distintas ejecuciones de pruebas para el generador.
+\section{DOC}
+El directorio DOC contiene los fuentes LaTEX con los que se ha confeccionado esta memoria. 
+\section{generator}
+Contiene el código GO relativo al generador de esta práctica. 
+\section{input}
+Directorio donde alojar las entradas del generador. En el residen las especificaciones de servicios a generar. 
+ \section{models}
+ Contiene el el paquete de código GO que el generador utiliza para generar las apis de los servicios. 
+\section{output}
+Contiene los servicios y casos de prueba producidos por el generador.  
+\section{resources}
+El directorio resources alberga las plantillas necesarias para que el generador sea capaz de generar pruebas y servicios. 
  
+\chapter{Conclusiones}
 
-\section{TI\_CesarHugoBarzanoCruz.pdf}
-Memoría de la práctica, referencia a este documento en si mismo, alojado en el directorio raíz de la entrega. 
+En la realización de este trabajo, se ha abordado un problema real que sufren distintas empresas en el mundo de los sistemas de la información aplicando técnicas de generación automática de código. Se puede apreciar que invirtiendo cierto esfuerzo o recursos en la implementación y mejora continua de un generador de código para servicios, permitiría generar valor de manera continua y ser competitiva con las cambiantes demandas del mercado, disponibilizando a clientes de las solución que requieren en un tiempo récord. La idea de esto es no hacer foco en intentar desarrollar y mantener cientos de servicios, la idea real es la de desarrollar las herramientas necesarias para mejorar el proceso de desarrollo y mantenimiento de gran cantidad de software. 
 
-\section{Directorio DOC}
-Directorio donde se almacenan todos los fuentes usados para generar esta documentación utilizando LaTEX. Incluye tambien las imagenes usadas en la memoria. 
-
-\section{Directorio src/testgenerator/input}
-Directorio donde se almacenan todos los ficheros usados como configuracion para el generador.
-
-\section{Directorio src/testgenerator/output}
-Directorio donde se almacenan todos los ficheros resultados de la ejecución de la pruebas. 
-
- 
 
 \begin{thebibliography}{aaaa}
 
@@ -934,6 +994,9 @@ Directorio donde se almacenan todos los ficheros resultados de la ejecución de 
 \textit{command line tool and library for transferring data with URLs}
 \url{https://curl.haxx.se/}
 
+\bibitem{mongo} \textsc{mongoDB},
+\textit{MongoDB }
+\url{https://www.mongodb.com/es}
 
 
 \end{thebibliography}
@@ -942,7 +1005,13 @@ Directorio donde se almacenan todos los ficheros resultados de la ejecución de 
 
 \chapter{Anexo}
 
+Se adjunta información solicitada por la Agencia Nacional Evaluadora de los Títulos Oficiales
 
+\begin{figure}[H]  
+\centering 
+\includegraphics[scale=0.25]{imagenes/gant.png}
+\caption{ Anexo: Diagrama Gant}  
+\end{figure} 
 
 
 
